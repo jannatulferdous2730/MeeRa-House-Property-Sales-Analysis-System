@@ -1,0 +1,487 @@
+
+<?php
+//index.php
+session_start();
+// if (!isset($_SESSION['user_id'])) {
+//     header('Location: login.php');
+//     exit();
+// }
+include 'config/config.php';
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$type = isset($_GET['type']) ? $_GET['type'] : '';
+
+$sql = "SELECT * FROM properties WHERE title LIKE '%$search%'";
+
+if ($type) {
+    $sql .= " AND type='$type'";
+}
+
+$result = $conn->query($sql);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="main.css">
+  <!-- "test": "echo \"Error: no test specified\" && exit 1" -->
+  <title>Document</title>
+</head>
+
+<body>
+  <?php include 'includes/header.php'; ?>
+  <main>
+    <article>
+      <section class="section px-10 pt-28 bg-white">
+        <div class="hero min-h-screen rounded-2xl " style="background-image: url('assets/images/hero-bg.jpg');">
+          <div class="hero-overlay bg-opacity-60 rounded-2xl"></div>
+          <div class=" text-center text-neutral-content">
+            <div class="max-w-md">
+              <h1 class="mb-5 text-3xl font-bold max-w-[19ch] mx-auto text-white leading-0">We will help you find your <span class="inline-block text-green-600">Wonderful</span> home</h1>
+              <p class="mb-5 text-white text-1xl leading-relaxed">A great plateform to buy, sell and rent your properties without any agent or commisions.</p>
+            </div>
+            
+          </div>
+          <div class="w-full">
+            <form action="index.php" method="get" class="mt-[360px] lg:flex lg:gap-4  px-28">
+                  <input type="text" name="search" placeholder="Search by title"
+                    class="w-full border h-full p-3 rounded bg-white">
+                  <select name="type" class="w-full border p-2 lg:my-0 my-2 rounded bg-white">
+                    <option value="">Select Type</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="house">House</option>
+                    <option value="land">Land</option>
+                  </select>
+                  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+                </form>
+          </div>
+        </div>
+
+      </section>
+ 
+      <!-- ABOUT -->
+      <section class="about px-52 py-28 bg-white">
+        <div class="container mx-auto flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-8">
+          <div class="flex-1">
+            <div class="relative overflow-hidden rounded-2xl size-3/4">
+              <img src="assets/images/about-banner.jpg" alt="about banner" class="w-full">
+              <button
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white text-green-600 p-8 text-2xl rounded-full">
+                <ion-icon name="play" class="text-2xl"></ion-icon>
+              </button>
+            </div>
+          </div>
+          <div class="flex-1 text-center md:text-left">
+            <h2 class="text-3xl font-bold mb-4 text-black/80" style="max-width: 20ch;">Efficiency. Transparency. Control.</h2>
+            <p class="mb-4 text-black/50 text-lg" style="margin-block: 20px 25px;">Hously developed a platform for the Real Estate marketplace
+              that allows buyers and sellers to easily execute a transaction on their own. The platform drives
+              efficiency, cost transparency and control into the hands of the consumers. Hously is Real Estate
+              Redefined.</p>
+            <a href="#" class="bg-green-500 text-white px-7 py-2 rounded">Learn More</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROPERTIES -->
+      <section class="section property px-28 py-12 bg-white" aria-label="property">
+        <div class="container mx-auto text-center">
+
+          <h2 class="h2 section-title text-3xl font-bold mb-4 text-black/80">Featured Properties</h2>
+
+          <p class="section-text mb-16 text-black/50 text-lg">A great platform to buy, sell and rent your properties without any agent or
+            commissions.</p>
+
+          <ul class="property-list grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+            <li>
+              <div
+                class="property-card relative rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+
+                <figure class="card-banner relative">
+                  <img src="assets/images/property-1.jpg" loading="lazy"
+                    alt="10765 Hillshire Ave, Baton Rouge, LA 70810, USA" class="w-full h-auto">
+                </figure>
+
+                <button class="card-action-btn absolute top-5 right-5 bg-white text-red-600 p-3 rounded-full">
+                  <ion-icon name="heart" class="text-xl" aria-hidden="true"></ion-icon>
+                </button>
+
+                <div class="card-content p-6 text-blue-900">
+                  <h3 class="h3 text-xl font-semibold mb-4">
+                    <a href="#" class="card-title transition-colors duration-300 hover:text-green-600">10765 Hillshire
+                      Ave, Baton Rouge, LA 70810, USA</a>
+                  </h3>
+
+                  <ul
+                    class="card-list flex flex-wrap items-center gap-x-4 gap-y-2 py-4 border-t border-b border-gray-300 mb-6">
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="cube-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">8000sqf</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="bed-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Beds</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="man-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Baths</span>
+                    </li>
+                  </ul>
+
+                  <div class="card-meta flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                      <span class="meta-title text-gray-500">Price</span>
+                      <span class="meta-text text-xl font-medium">$5000</span>
+                    </div>
+                    <div>
+                      <span class="meta-title text-gray-500">Rating</span>
+                      <div class="meta-text flex items-center gap-2">
+                        <div class="rating-wrapper flex gap-1 text-yellow-400 text-lg">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                        </div>
+                        <span>5.0(30)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div
+                class="property-card relative rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+
+                <figure class="card-banner relative">
+                  <img src="assets/images/property-2.jpg" loading="lazy"
+                    alt="10765 Hillshire Ave, Baton Rouge, LA 70810, USA" class="w-full h-auto">
+                </figure>
+
+                <button class="card-action-btn absolute top-5 right-5 bg-white text-red-600 p-3 rounded-full">
+                  <ion-icon name="heart" class="text-xl" aria-hidden="true"></ion-icon>
+                </button>
+
+                <div class="card-content p-6 text-blue-900">
+                  <h3 class="h3 text-xl font-semibold mb-4">
+                    <a href="#" class="card-title transition-colors duration-300 hover:text-green-600">10765 Hillshire
+                      Ave, Baton Rouge, LA 70810, USA</a>
+                  </h3>
+
+                  <ul
+                    class="card-list flex flex-wrap items-center gap-x-4 gap-y-2 py-4 border-t border-b border-gray-300 mb-6">
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="cube-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">8000sqf</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="bed-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Beds</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="man-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Baths</span>
+                    </li>
+                  </ul>
+
+                  <div class="card-meta flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                      <span class="meta-title text-gray-500">Price</span>
+                      <span class="meta-text text-xl font-medium">$5000</span>
+                    </div>
+                    <div>
+                      <span class="meta-title text-gray-500">Rating</span>
+                      <div class="meta-text flex items-center gap-2">
+                        <div class="rating-wrapper flex gap-1 text-yellow-400 text-lg">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                        </div>
+                        <span>5.0(30)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div
+                class="property-card relative rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+
+                <figure class="card-banner relative">
+                  <img src="assets/images/property-3.jpg" loading="lazy"
+                    alt="10765 Hillshire Ave, Baton Rouge, LA 70810, USA" class="w-full h-auto">
+                </figure>
+
+                <button class="card-action-btn absolute top-5 right-5 bg-white text-red-600 p-3 rounded-full">
+                  <ion-icon name="heart" class="text-xl" aria-hidden="true"></ion-icon>
+                </button>
+
+                <div class="card-content p-6 text-blue-900">
+                  <h3 class="h3 text-xl font-semibold mb-4">
+                    <a href="#" class="card-title transition-colors duration-300 hover:text-green-600">10765 Hillshire
+                      Ave, Baton Rouge, LA 70810, USA</a>
+                  </h3>
+
+                  <ul
+                    class="card-list flex flex-wrap items-center gap-x-4 gap-y-2 py-4 border-t border-b border-gray-300 mb-6">
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="cube-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">8000sqf</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="bed-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Beds</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="man-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Baths</span>
+                    </li>
+                  </ul>
+
+                  <div class="card-meta flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                      <span class="meta-title text-gray-500">Price</span>
+                      <span class="meta-text text-xl font-medium">$5000</span>
+                    </div>
+                    <div>
+                      <span class="meta-title text-gray-500">Rating</span>
+                      <div class="meta-text flex items-center gap-2">
+                        <div class="rating-wrapper flex gap-1 text-yellow-400 text-lg">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                        </div>
+                        <span>5.0(30)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div
+                class="property-card relative rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+
+                <figure class="card-banner relative">
+                  <img src="assets/images/property-4.jpg" loading="lazy"
+                    alt="10765 Hillshire Ave, Baton Rouge, LA 70810, USA" class="w-full h-auto">
+                </figure>
+
+                <button class="card-action-btn absolute top-5 right-5 bg-white text-red-600 p-3 rounded-full">
+                  <ion-icon name="heart" class="text-xl" aria-hidden="true"></ion-icon>
+                </button>
+
+                <div class="card-content p-6 text-blue-900">
+                  <h3 class="h3 text-xl font-semibold mb-4">
+                    <a href="#" class="card-title transition-colors duration-300 hover:text-green-600">10765 Hillshire
+                      Ave, Baton Rouge, LA 70810, USA</a>
+                  </h3>
+
+                  <ul
+                    class="card-list flex flex-wrap items-center gap-x-4 gap-y-2 py-4 border-t border-b border-gray-300 mb-6">
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="cube-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">8000sqf</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="bed-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Beds</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="man-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Baths</span>
+                    </li>
+                  </ul>
+
+                  <div class="card-meta flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                      <span class="meta-title text-gray-500">Price</span>
+                      <span class="meta-text text-xl font-medium">$5000</span>
+                    </div>
+                    <div>
+                      <span class="meta-title text-gray-500">Rating</span>
+                      <div class="meta-text flex items-center gap-2">
+                        <div class="rating-wrapper flex gap-1 text-yellow-400 text-lg">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                        </div>
+                        <span>5.0(30)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div
+                class="property-card relative rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+
+                <figure class="card-banner relative">
+                  <img src="assets/images/property-5.jpg" loading="lazy"
+                    alt="10765 Hillshire Ave, Baton Rouge, LA 70810, USA" class="w-full h-auto">
+                </figure>
+
+                <button class="card-action-btn absolute top-5 right-5 bg-white text-red-600 p-3 rounded-full">
+                  <ion-icon name="heart" class="text-xl" aria-hidden="true"></ion-icon>
+                </button>
+
+                <div class="card-content p-6 text-blue-900">
+                  <h3 class="h3 text-xl font-semibold mb-4">
+                    <a href="#" class="card-title transition-colors duration-300 hover:text-green-600">10765 Hillshire
+                      Ave, Baton Rouge, LA 70810, USA</a>
+                  </h3>
+
+                  <ul
+                    class="card-list flex flex-wrap items-center gap-x-4 gap-y-2 py-4 border-t border-b border-gray-300 mb-6">
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="cube-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">8000sqf</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="bed-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Beds</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="man-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Baths</span>
+                    </li>
+                  </ul>
+
+                  <div class="card-meta flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                      <span class="meta-title text-gray-500">Price</span>
+                      <span class="meta-text text-xl font-medium">$5000</span>
+                    </div>
+                    <div>
+                      <span class="meta-title text-gray-500">Rating</span>
+                      <div class="meta-text flex items-center gap-2">
+                        <div class="rating-wrapper flex gap-1 text-yellow-400 text-lg">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                        </div>
+                        <span>5.0(30)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div
+                class="property-card relative rounded-2xl shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+
+                <figure class="card-banner relative">
+                  <img src="assets/images/property-6.jpg" loading="lazy"
+                    alt="10765 Hillshire Ave, Baton Rouge, LA 70810, USA" class="w-full h-auto">
+                </figure>
+
+                <button class="card-action-btn absolute top-5 right-5 bg-white text-red-600 p-3 rounded-full">
+                  <ion-icon name="heart" class="text-xl" aria-hidden="true"></ion-icon>
+                </button>
+
+                <div class="card-content p-6 text-blue-900">
+                  <h3 class="h3 text-xl font-semibold mb-4">
+                    <a href="#" class="card-title transition-colors duration-300 hover:text-green-600">10765 Hillshire
+                      Ave, Baton Rouge, LA 70810, USA</a>
+                  </h3>
+
+                  <ul
+                    class="card-list flex flex-wrap items-center gap-x-4 gap-y-2 py-4 border-t border-b border-gray-300 mb-6">
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="cube-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">8000sqf</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="bed-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Beds</span>
+                    </li>
+                    <li class="card-item flex items-center gap-2">
+                      <ion-icon name="man-outline" class="text-green-600 text-2xl"></ion-icon>
+                      <span class="item-text">4 Baths</span>
+                    </li>
+                  </ul>
+
+                  <div class="card-meta flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                      <span class="meta-title text-gray-500">Price</span>
+                      <span class="meta-text text-xl font-medium">$5000</span>
+                    </div>
+                    <div>
+                      <span class="meta-title text-gray-500">Rating</span>
+                      <div class="meta-text flex items-center gap-2">
+                        <div class="rating-wrapper flex gap-1 text-yellow-400 text-lg">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                        </div>
+                        <span>5.0(30)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+
+          </ul>
+
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+
+      <section class="section contact bg-white" aria-label="contact">
+        <div class="container text-center py-16">
+
+          <h2 class="text-3xl font-semibold text-black/80">Have Question? Get in touch!</h2>
+
+          <p class="text-gray-600 my-6">
+            A great platform to buy, sell, and rent your properties without any agents or commissions.
+          </p>
+
+          <button class="btn btn-primary flex items-center gap-2 mx-auto bg-blue-500 text-white py-2 px-4 rounded-lg">
+            <ion-icon name="call-outline" class="text-xl   rounded "></ion-icon>
+            <span >Contact us</span>
+          </button>
+
+        </div>
+      </section>
+
+
+
+    </article>
+  </main>
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <?php include 'includes/footer.php'; ?>
+
+</body>
+
+</html>
